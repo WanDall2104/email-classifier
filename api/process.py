@@ -56,7 +56,7 @@ Return ONLY a JSON object.
 """
     # Use a chat or generation API
     response = genai.ChatCompletion.create(
-        model="gemini-1.5-pro",  # ajustar conforme disponibilidade (ex.: gemini-pro, gemini-1.5)
+        model="gemini-2.5-flash",  # ajustar conforme disponibilidade (ex.: gemini-pro, gemini-1.5)
         messages=[{"role":"user","content":prompt}],
         temperature=0.0,
         max_output_tokens=512

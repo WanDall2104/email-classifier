@@ -101,12 +101,3 @@ Contribuições
 
 Contato
 - Autor: Gabriel Wan Dall Parra
-
-Licença
-- Adicione aqui a licença do projeto (por exemplo, MIT) se desejar publicar publicamente.
-
----
-
-Se quiser, posso também:
-- adicionar um exemplo mínimo de como chamar `api/process.py` por curl/postman;
-- incluir instruções de pré-processamento do NLTK (download de corpora) caso ainda não estejam no projeto.
