@@ -219,6 +219,35 @@ def test_endpoint():
     """Simple test endpoint that does not use NLTK or Gemini — useful for smoke tests."""
     return jsonify({"ok": True, "message": "test endpoint working"}), 200
 
+
+@app.route('/debug/key', methods=['GET'])
+def debug_api_key():
+    """Endpoint de depuração para validar a configuração da chave da API.
+
+    Retorna apenas status e uma mensagem de erro truncada para não expor a chave.
+    """
+    key = os.environ.get("GOOGLE_GEMINI_API_KEY")
+    if not key:
+        return jsonify({"ok": False, "error": "GOOGLE_GEMINI_API_KEY not set"}), 400
+
+    try:
+        # Faz uma chamada leve para verificar se a chave é aceita pelo serviço.
+        # Aqui usamos listagem de modelos, que costuma ser uma chamada rápida.
+        models_resp = client.models.list()
+        # Tentar inferir um tamanho/contagem sem expor dados sensíveis
+        models_count = 0
+        try:
+            models_count = len(getattr(models_resp, 'models', []) or [])
+        except Exception:
+            models_count = 1
+
+        return jsonify({"ok": True, "models_count": models_count}), 200
+
+    except Exception as e:
+        # Truncar a mensagem de erro para evitar expor detalhes sensíveis
+        err = str(e)
+        return jsonify({"ok": False, "error": err[:300]}), 400
+
 # -----------------------------
 # Run Flask
 # -----------------------------
