@@ -1,101 +1,43 @@
-// Código reorganizado para Email Classifier
-(() => {
-    const fileInput = document.getElementById('file')
-    const textArea = document.getElementById('text')
-    const resultEl = document.getElementById('result')
-    const sendBtn = document.getElementById('send')
-    const spinner = document.querySelector('.spinner')
+const submitBtn = document.getElementById("submitBtn");
+const fileInput = document.getElementById("fileInput");
+const textInput = document.getElementById("textInput");
+const resultDiv = document.getElementById("resultDiv");
+const resultText = document.getElementById("resultText");
+const errorDiv = document.getElementById("errorDiv");
+const errorText = document.getElementById("errorText");
 
-    function setBusy(busy){
-        sendBtn.disabled = busy
-        sendBtn.textContent = busy ? 'Processando…' : 'Processar'
-        if(spinner){
-            // spinner uses the boolean hidden attribute in the HTML
-            spinner.hidden = !busy
-            spinner.setAttribute('aria-hidden', String(!busy))
-        }
-    }
+    submitBtn.addEventListener("click", async () => {
+        resultDiv.style.display = "none";
+        errorDiv.style.display = "none";
 
-    function escapeHTML(str){
-        if(str == null) return ''
-        return String(str).replace(/[&<>"']/g, s => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[s]))
-    }
+        const formData = new FormData();
 
-    function showError(msg){
-        resultEl.innerHTML = ''
-        const el = document.createElement('div')
-        el.style.color = 'crimson'
-        el.textContent = msg
-        resultEl.appendChild(el)
-    }
-
-    function showResult(data){
-        resultEl.innerHTML = ''
-        const wrap = document.createElement('div')
-        wrap.style.marginTop = '10px'
-
-        const cat = document.createElement('div')
-        cat.innerHTML = `<strong>Categoria:</strong> ${escapeHTML(data.category)}`
-        wrap.appendChild(cat)
-
-        const conf = document.createElement('div')
-        conf.innerHTML = `<strong>Confiança:</strong> ${data.confidence ?? '—'}`
-        wrap.appendChild(conf)
-
-        const label = document.createElement('div')
-        label.innerHTML = `<strong>Resposta sugerida:</strong>`
-        wrap.appendChild(label)
-
-        const pre = document.createElement('pre')
-        pre.style.background = '#f6f8fa'
-        pre.style.padding = '10px'
-        pre.style.borderRadius = '8px'
-        pre.textContent = data.suggested_reply || ''
-        wrap.appendChild(pre)
-
-        resultEl.appendChild(wrap)
-    }
-
-    function validateInput(file, text){
-        if(file) return true
-        if(text && text.trim().length > 0) return true
-        return false
-    }
-
-    async function handleClick(){
-        const file = fileInput.files[0]
-        const text = textArea.value || ''
-
-        if(!validateInput(file, text)){
-            showError('Por favor, envie um arquivo (.txt/.pdf) ou cole o texto do e-mail.')
-            return
-        }
-
-        setBusy(true)
-        resultEl.innerHTML = '<em>Processando…</em>'
-
-        const body = new FormData()
-        if(file){
-            body.append('file', file)
-        } else {
-            body.append('text', text)
-        }
-
-        try {
-            const res = await fetch('/api/process', { method: 'POST', body })
-            if(!res.ok){
-                const errText = await res.text()
-                showError('Erro: ' + errText)
-                return
+            if (fileInput.files.length > 0) {
+                formData.append("file", fileInput.files[0]);
+            } else if (textInput.value.trim() !== "") {
+                formData.append("text", textInput.value.trim());
+            } else {
+                errorText.textContent = "Por favor, insira um texto ou selecione um arquivo.";
+                errorDiv.style.display = "block";
+                return;
             }
-            const data = await res.json()
-            showResult(data)
-        } catch (err){
-            showError('Erro inesperado: ' + (err && err.message ? err.message : String(err)))
-        } finally {
-            setBusy(false)
-        }
-    }
 
-    sendBtn.addEventListener('click', handleClick)
-})()
+            try {
+                const response = await fetch("/process", {
+                    method: "POST",
+                    body: formData
+                });
+
+                if (!response.ok) {
+                    const text = await response.text();
+                    throw new Error(text);
+                }
+
+                const data = await response.json();
+                resultText.textContent = JSON.stringify(data, null, 2);
+                resultDiv.style.display = "block";
+            } catch (err) {
+                errorText.textContent = "Erro: " + err.message;
+                errorDiv.style.display = "block";
+            }
+        });

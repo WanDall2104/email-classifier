@@ -1,34 +1,28 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>Email Classifier — Demo</title>
+    <meta charset="UTF-8">
+    <title>Email Classifier</title>
     <link rel="stylesheet" href="css/styles.css">
 </head>
-
 <body>
+    <div class="container">
+        <h1>Email Classifier</h1>
+        <label>Escolha um arquivo (.txt ou .pdf):</label>
+        <input type="file" id="fileInput">
+        <label>Ou cole o texto do email:</label>
+        <textarea id="textInput" rows="6" placeholder="Cole aqui o conteúdo do email..."></textarea>
+        <button id="submitBtn">Processar Email</button>
 
-<header><h1>Email Classifier</h1></header>
-<main class="card">
-    <p>Faça upload de um arquivo (.txt ou .pdf) ou cole o texto do email abaixo e clique em <strong>Processar</strong>.</p>
-    <div>
-        <label for="file">Arquivo (.txt / .pdf)</label><br/>
-        <input id="file" type="file" accept=".txt,.pdf" />
+        <div class="result" id="resultDiv">
+            <h3>Resultado:</h3>
+            <pre id="resultText"></pre>
+        </div>
+
+        <div class="error" id="errorDiv">
+            <pre id="errorText"></pre>
+        </div>
     </div>
-
-    <div style="margin-top:12px">
-        <label for="text">Ou cole o texto do email</label>
-        <textarea id="text" placeholder="Cole aqui..."></textarea>
-    </div>
-
-    <div style="margin-top:12px" class="actions">
-        <button id="send">Processar</button>
-        <span class="spinner" aria-hidden="true" title="Processando" hidden></span>
-    </div>
-
-    <div class="result" id="result" aria-live="polite"></div>
-</main>
 
 <script src="js/main.js"></script>
 </body>

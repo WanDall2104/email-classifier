@@ -1,71 +1,68 @@
-body{
-    font-family:Inter,system-ui;
-    max-width:860px;
-    margin:36px auto;
-    padding:0 16px;
-    color:#111;
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f6f8;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 100vh;
+    padding-top: 50px;
 }
 
-header{ 
-    display:flex;
-    align-items:center;
-    gap:12px;
+.container {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    width: 400px;
 }
 
-.card{
-    border:1px solid #eee;
-    padding:18px;
-    border-radius:12px;
-    box-shadow:0 6px 18px rgba(0,0,0,0.03);
+h1 {
+    text-align: center;
+    color: #333;
 }
 
-label{
-    font-weight:600;
+input[type="file"], textarea {
+    width: 100%;
+    margin-top: 10px;
+    padding: 8px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    resize: vertical;
 }
 
-textarea{
-    width:100%;
-    min-height:140px;
-    padding:10px;
-    border-radius:8px;
-    border:1px solid #ddd;
+button {
+    width: 100%;
+    margin-top: 15px;
+    padding: 10px;
+    background-color: #0070f3;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    cursor: pointer;
 }
 
-.result{
-    margin-top:16px;
+button:hover {
+    background-color: #0059c1;
 }
 
-button{
-    background:#0066ff;
-    color:white;
-    padding:10px 14px;
-    border-radius:8px;
-    border:0;
-    cursor:pointer;
+.result {
+    margin-top: 20px;
+    padding: 15px;
+    background-color: #e7f3ff;
+    border-radius: 8px;
+    display: none;
 }
 
-button[disabled]{
-    opacity:0.7;
-    cursor:not-allowed;
+.error {
+    margin-top: 20px;
+    padding: 15px;
+    background-color: #ffd6d6;
+    border-radius: 8px;
+    color: #900;
+    display: none;
 }
 
-.actions{
-    display:inline-flex;
-    align-items:center;
-    gap:8px;
-}
-
-.spinner{
-    display:inline-block;
-    width:18px;
-    height:18px;
-    border-radius:50%;
-    border:2px solid rgba(0,0,0,0.12);
-    border-top-color: #0066ff;
-    box-sizing: border-box;
-    animation: spin 1s linear infinite;
-}
-
-@keyframes spin{
-    to { transform: rotate(360deg); }
+pre {
+    white-space: pre-wrap;
 }
