@@ -1,0 +1,71 @@
+body{
+    font-family:Inter,system-ui;
+    max-width:860px;
+    margin:36px auto;
+    padding:0 16px;
+    color:#111;
+}
+
+header{ 
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.card{
+    border:1px solid #eee;
+    padding:18px;
+    border-radius:12px;
+    box-shadow:0 6px 18px rgba(0,0,0,0.03);
+}
+
+label{
+    font-weight:600;
+}
+
+textarea{
+    width:100%;
+    min-height:140px;
+    padding:10px;
+    border-radius:8px;
+    border:1px solid #ddd;
+}
+
+.result{
+    margin-top:16px;
+}
+
+button{
+    background:#0066ff;
+    color:white;
+    padding:10px 14px;
+    border-radius:8px;
+    border:0;
+    cursor:pointer;
+}
+
+button[disabled]{
+    opacity:0.7;
+    cursor:not-allowed;
+}
+
+.actions{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+}
+
+.spinner{
+    display:inline-block;
+    width:18px;
+    height:18px;
+    border-radius:50%;
+    border:2px solid rgba(0,0,0,0.12);
+    border-top-color: #0066ff;
+    box-sizing: border-box;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin{
+    to { transform: rotate(360deg); }
+}
