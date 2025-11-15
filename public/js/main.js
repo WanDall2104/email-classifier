@@ -1,5 +1,6 @@
 const submitBtn = document.getElementById("submitBtn");
 const fileInput = document.getElementById("fileInput");
+const fileName = document.getElementById("fileName");
 const textInput = document.getElementById("textInput");
 const resultDiv = document.getElementById("resultDiv");
 const resultText = document.getElementById("resultText");
@@ -76,3 +77,12 @@ copyReplyBtn.addEventListener('click', async () => {
         console.warn('Clipboard failed', e);
     }
 });
+
+// Atualiza o nome do arquivo selecionado
+if (fileInput) {
+  fileInput.addEventListener("change", () => {
+    fileName.textContent = fileInput.files.length
+      ? fileInput.files[0].name
+      : "Nenhum arquivo selecionado";
+  });
+}

@@ -2,34 +2,64 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <title>Email Classifier</title>
+    <title>Classificador de Email</title>
     <link rel="stylesheet" href="css/styles.css">
+    <link rel="icon" type="image/png" href="images/logo.png">
 </head>
 <body>
-    
+
+    <!-- Logo centralizada -->
+    <div class="logo-container">
+        <img src="images/logo.png" alt="Logo" class="logo-center">
+    </div>
+
+    <!-- Card principal -->
     <div class="container">
-        <h1>Email Classifier</h1>
-        <label>Escolha um arquivo (.txt ou .pdf):</label>
-        <input type="file" id="fileInput">
+        <h1>Classificador de Email</h1>
+
+        
+        <div class="file-input-wrapper">
+            <label for="fileInput" class="file-input-label">
+                Escolher arquivo
+            </label>
+
+            <div class="file-input-name-box">
+                <span id="fileName" class="file-input-name">
+                Nenhum arquivo selecionado
+                </span>
+            </div>
+
+            <input id="fileInput" type="file" class="file-input-hidden" />
+        </div>
+
         <label>Ou cole o texto do email:</label>
         <textarea id="textInput" rows="6" placeholder="Cole aqui o conteúdo do email..."></textarea>
+
         <button id="submitBtn">Processar Email</button>
-        <div class="result" id="resultDiv" style="display:none; margin-top:16px;">
+
+        <div class="result" id="resultDiv" style="display:none;">
             <h3>Resultado</h3>
+
             <p><strong>Categoria:</strong> <span id="categorySpan"></span></p>
             <p><strong>Confiança:</strong> <span id="confidenceSpan"></span></p>
-            <p><strong>Resposta sugerida:</strong></p>
+
+            <p style="margin-top: 15px;"><strong>Resposta sugerida:</strong></p>
             <pre id="suggestedReply"></pre>
-            <button id="copyReplyBtn" style="margin-top:8px;">Copiar Resposta</button>
-            <details style="margin-top:8px;"><summary>Mostrar JSON completo</summary>
+
+            <button id="copyReplyBtn">Copiar Resposta</button>
+
+            <details style="margin-top:16px;">
+                <summary>Mostrar JSON completo</summary>
                 <pre id="resultText"></pre>
             </details>
         </div>
 
-        <div class="error" id="errorDiv" style="display:none; margin-top:16px; color:#b00020;">
+        <div class="error" id="errorDiv" style="display:none;">
             <pre id="errorText"></pre>
         </div>
     </div>
-    <script src="js/main.js"></script>
+
+<script src="js/main.js"></script>
+
 </body>
 </html>

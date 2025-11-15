@@ -1,68 +1,209 @@
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f6f8;
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    min-height: 100vh;
-    padding-top: 50px;
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+:root {
+    /* Primary Colors */
+    --primary: #5372fe;
+    --primary-dark: #3757d6;
+
+    /* Backgrounds */
+    --bg-dark: #191919;
+    --bg-light: #faf8fb;
+    --bg-card: #111218;
+    --bg-textarea: rgba(255, 255, 255, 0.08);
+    
+    /* Text Colors */
+    --text-light: #dfe3ee;
+    --text-white: #ffffff;
+    --text-gray: #cccccc;
+    --text-muted: #8a8a8a;
+
+    /* Borders */
+    --border-soft: rgba(255, 255, 255, 0.08);
+    --border-contrast: rgba(255, 255, 255, 0.03);
+    --border-dark: #2d2f36;
+    --border-darksoft: #1d1e25;
+    --border-darkblue: #1b1c21;
+
+    /* Shadows */
+    --shadow-dark: rgba(0, 0, 0, 0.2);
+
+    /* Errors */
+    --error-light: #ff7777;
+    --error-dark: #ff4b4b;
 }
 
-.container {
-    background-color: #fff;
-    padding: 30px;
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    width: 400px;
+/* ===========================
+   GLOBAL
+=========================== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    background-color: var(--bg-dark);
+    min-height: 100vh;
+    padding-top: 30px;
+    text-align: center;
 }
 
 h1 {
+    color: var(--text-white);
     text-align: center;
-    color: #333;
+    font-size: 26px;
+    font-weight: 600;
+    margin-bottom: 25px;
+}
+
+label {
+    color: var(--text-muted);
+    font-size: 14px;
+    margin-top: 15px;
+    display: block;
 }
 
 input[type="file"], textarea {
+    background-color: var(--bg-textarea);
+    color: var(--text-white);
     width: 100%;
-    margin-top: 10px;
-    padding: 8px;
-    border-radius: 6px;
-    border: 1px solid #ccc;
+    margin-top: 8px;
+    padding: 10px 12px;
+    border-radius: 8px;
+    border: 1px solid var(--border-dark);
+}
+
+textarea {
     resize: vertical;
 }
 
-button {
+/* ===========================
+   LOGO
+=========================== */
+.logo-container {
     width: 100%;
-    margin-top: 15px;
-    padding: 10px;
-    background-color: #0070f3;
+    display: flex;
+    justify-content: center;
+    margin-top: 30px;
+    margin-bottom: 10px;
+}
+
+.logo-center {
+    height: 80px;        
+    width: auto;
+    opacity: 0.9;
+    transition: 0.2s ease;
+}
+
+.logo-center:hover {
+    opacity: 1;
+}
+
+
+/* ===========================
+   CARD
+=========================== */
+.container {
+    background-color: var(--bg-card);
+    color: var(--text-white);
+    margin: 0 auto;
+    margin-top: 40px;
+    padding: 40px;
+    border-radius: 16px;
+    box-shadow: 0 0 40px var(--shadow-dark);
+    width: 520px;
+}
+
+/* ===========================
+   FILE INPUT
+=========================== */
+.file-input-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.file-input-hidden {
+    display: none;
+}
+
+.file-input-label {
+    background-color: var(--primary);
+    color: var(--text-white);
+    cursor: pointer;
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    transition: background-color 0.2s ease;
+}
+
+.file-input-label:hover {
+    background-color: var(--primary-dark);
+}
+
+.file-input-name {
+    color: var(--text-gray);
+    font-size: 0.875rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis; 
+    max-width: 180px;
+}
+
+.file-input-name-box {
+    background-color: var(--border-soft); /* leve contraste */
+    border-radius: 8px;
+    border: 1px solid var(--border-contrast); /* borda suave */
+    padding: 8px 16px;
+    min-width: 220px;
+    margin-top: 12px;
+}
+
+/* ===========================
+   BOTÕES
+=========================== */
+button {
+    background: var(--primary);
+    width: 100%;
+    margin-top: 18px;
+    padding: 12px;
     color: white;
     border: none;
-    border-radius: 6px;
+    border-radius: 10px;
     font-size: 16px;
+    font-weight: 500;
     cursor: pointer;
+    transition: 0.2s ease;
 }
 
 button:hover {
-    background-color: #0059c1;
+    background: var(--primary-dark);
 }
 
-.result {
-    margin-top: 20px;
-    padding: 15px;
-    background-color: #e7f3ff;
-    border-radius: 8px;
-    display: none;
+/* ===========================
+   RESULTADOS E ERROS
+=========================== */
+.result, .error {
+    background-color: var(--bg-textarea);
+    color: var(--text-light);
+    margin-top: 25px;
+    padding: 20px;
+    border-radius: 12px;
+    border: 1px solid var(--border-darksoft);
 }
 
 .error {
-    margin-top: 20px;
-    padding: 15px;
-    background-color: #ffd6d6;
-    border-radius: 8px;
-    color: #900;
-    display: none;
+    border: 1px solid var(--error-dark);
+    color: var(--error-light);
 }
 
 pre {
+    background: var(--bg-card);
     white-space: pre-wrap;
+    font-size: 14px;
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid var(--border-darkblue);
 }
