@@ -114,8 +114,8 @@ A execução deste software não concede permissão para redistribuição, modif
 
 ## ✉️ Contato
 
-Desenvolvido por **Gabriel Wan Dall Parra**. 
-🔗 LinkedIn: https://www.linkedin.com/in/seu-usuario-aqui
+Desenvolvido por **Gabriel Wan Dall Parra**.
+🔗 LinkedIn: www.linkedin.com/in/wandallgabriel
 
 ---
 
