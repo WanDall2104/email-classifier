@@ -199,9 +199,9 @@ def process_email():
 
 @app.route("/", methods=["GET"])
 def index():
-    """Serve the frontend `public/index.html` so the user can test via browser.
+    """Entrega o arquivo `public/index.html` do frontend para que o usuário possa testar via navegador.
 
-    The public folder is one level up from this `api` package.
+    A pasta `public` fica um nível acima deste pacote `api`.
     """
     public_dir = os.path.join(os.path.dirname(__file__), '..', 'public')
     return send_from_directory(public_dir, 'index.html')
@@ -209,14 +209,14 @@ def index():
 
 @app.route('/<path:filename>')
 def public_files(filename):
-    """Serve static files from the `public` directory (css/js/assets)."""
+    """Entrega arquivos estáticos da pasta `public` (css/js/assets)."""
     public_dir = os.path.join(os.path.dirname(__file__), '..', 'public')
     return send_from_directory(public_dir, filename)
 
 
 @app.route('/test', methods=['GET'])
 def test_endpoint():
-    """Simple test endpoint that does not use NLTK or Gemini — useful for smoke tests."""
+    """Endpoint simples de teste que não usa NLTK nem Gemini — útil para testes básicos (smoke tests)."""
     return jsonify({"ok": True, "message": "test endpoint working"}), 200
 
 
