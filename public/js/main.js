@@ -1,38 +1,68 @@
-const submitBtn = document.getElementById("submitBtn");
-const fileInput = document.getElementById("fileInput");
-const fileName = document.getElementById("fileName");
-const textInput = document.getElementById("textInput");
-const resultDiv = document.getElementById("resultDiv");
-const resultText = document.getElementById("resultText");
-const errorDiv = document.getElementById("errorDiv");
-const errorText = document.getElementById("errorText");
-const categorySpan = document.getElementById("categorySpan");
-const confidenceSpan = document.getElementById("confidenceSpan");
-const suggestedReply = document.getElementById("suggestedReply");
-const copyReplyBtn = document.getElementById("copyReplyBtn");
+// ==============================
+// Referências do DOM
+// ==============================
+const UI = {
+    submitBtn: document.getElementById("submitBtn"),
+    fileInput: document.getElementById("fileInput"),
+    fileName: document.getElementById("fileName"),
+    textInput: document.getElementById("textInput"),
 
-async function sendForm() {
-    resultDiv.style.display = "none";
-    errorDiv.style.display = "none";
-    resultText.textContent = '';
-    categorySpan.textContent = '';
-    confidenceSpan.textContent = '';
-    suggestedReply.textContent = '';
+    result: document.getElementById("resultDiv"),
+    error: document.getElementById("errorDiv"),
+    errorText: document.getElementById("errorText"),
 
+    category: document.getElementById("categorySpan"),
+    confidence: document.getElementById("confidenceSpan"),
+    reply: document.getElementById("suggestedReply"),
+    copyReplyBtn: document.getElementById("copyReplyBtn")
+};
+
+// ==============================
+// Funções utilitárias
+// ==============================
+function clearUI() {
+    UI.result.style.display = "none";
+    UI.error.style.display = "none";
+    UI.category.textContent = "";
+    UI.confidence.textContent = "";
+    UI.reply.textContent = "";
+}
+
+function showError(message) {
+    UI.errorText.textContent = message;
+    UI.error.style.display = "block";
+}
+
+function toggleSubmitButton(isProcessing) {
+    UI.submitBtn.disabled = isProcessing;
+    UI.submitBtn.textContent = isProcessing ? "Processando..." : "Processar Email";
+}
+
+function buildFormData() {
     const formData = new FormData();
 
-    if (fileInput.files.length > 0) {
-        formData.append("file", fileInput.files[0]);
-    } else if (textInput.value.trim() !== "") {
-        formData.append("text", textInput.value.trim());
-    } else {
-        errorText.textContent = "Por favor, insira um texto ou selecione um arquivo.";
-        errorDiv.style.display = "block";
+    if (UI.fileInput.files.length > 0) {
+        formData.append("file", UI.fileInput.files[0]);
+    } else if (UI.textInput.value.trim() !== "") {
+        formData.append("text", UI.textInput.value.trim());
+    }
+
+    return formData;
+}
+
+// ==============================
+// Envio do formulário
+// ==============================
+async function sendForm() {
+    clearUI();
+
+    const formData = buildFormData();
+    if (!formData.has("file") && !formData.has("text")) {
+        showError("Por favor, insira um texto ou selecione um arquivo.");
         return;
     }
 
-    submitBtn.disabled = true;
-    submitBtn.textContent = "Processando...";
+    toggleSubmitButton(true);
 
     try {
         const response = await fetch("/process", {
@@ -41,48 +71,83 @@ async function sendForm() {
         });
 
         if (!response.ok) {
-            const text = await response.text();
-            throw new Error(text || `HTTP ${response.status}`);
+            const serverMessage = await response.text();
+            throw new Error(serverMessage || `HTTP ${response.status}`);
         }
 
         const data = await response.json();
 
-        // Tentar preencher campos conhecidos
-        categorySpan.textContent = data.category || data.category_label || '—';
-        confidenceSpan.textContent = (data.confidence !== undefined) ? `${data.confidence}%` : (data.confidence_score || '—');
-        suggestedReply.textContent = data.suggested_reply || data.suggestedReply || data.suggestedReplyText || '';
+        // Preenche campos retornados pela API
+        UI.category.textContent =
+            data.category ?? data.category_label ?? "—";
 
-        resultText.textContent = JSON.stringify(data, null, 2);
-        resultDiv.style.display = "block";
+        UI.confidence.textContent =
+            data.confidence !== undefined
+                ? `${data.confidence}%`
+                : (data.confidence_score ?? "—");
+
+        UI.reply.textContent =
+            data.suggested_reply ??
+            data.suggestedReply ??
+            data.suggestedReplyText ??
+            "";
+
+        UI.result.style.display = "block";
 
     } catch (err) {
-        errorText.textContent = "Erro: " + err.message;
-        errorDiv.style.display = "block";
+        showError("Erro: " + err.message);
     } finally {
-        submitBtn.disabled = false;
-        submitBtn.textContent = "Processar Email";
+        toggleSubmitButton(false);
     }
 }
 
-submitBtn.addEventListener('click', sendForm);
+// ==============================
+// Eventos
+// ==============================
+UI.submitBtn.addEventListener("click", (e) => {
+    e.preventDefault();
+    sendForm();
+});
 
-copyReplyBtn.addEventListener('click', async () => {
-    const text = suggestedReply.textContent || resultText.textContent;
+UI.copyReplyBtn.addEventListener("click", async () => {
+    const text = UI.reply.textContent;
     if (!text) return;
+
     try {
         await navigator.clipboard.writeText(text);
-        copyReplyBtn.textContent = 'Copiado!';
-        setTimeout(() => { copyReplyBtn.textContent = 'Copiar Resposta'; }, 1500);
-    } catch (e) {
-        console.warn('Clipboard failed', e);
+        UI.copyReplyBtn.textContent = "Copiado!";
+        setTimeout(() => {
+            UI.copyReplyBtn.textContent = "Copiar Resposta";
+        }, 1500);
+    } catch (err) {
+        console.warn("Clipboard failed", err);
     }
 });
 
-// Atualiza o nome do arquivo selecionado
-if (fileInput) {
-  fileInput.addEventListener("change", () => {
-    fileName.textContent = fileInput.files.length
-      ? fileInput.files[0].name
-      : "Nenhum arquivo selecionado";
-  });
+// Atualizar nome do arquivo selecionado e controlar textarea
+if (UI.fileInput) {
+    UI.fileInput.addEventListener("change", () => {
+        UI.fileName.textContent =
+            UI.fileInput.files.length
+                ? UI.fileInput.files[0].name
+                : "Nenhum arquivo selecionado";
+        
+        // Desabilitar textarea quando arquivo é selecionado
+        UI.textInput.disabled = UI.fileInput.files.length > 0;
+        if (UI.fileInput.files.length > 0) {
+            UI.textInput.value = "";
+        }
+    });
+}
+
+// Controlar arquivo quando texto é digitado
+if (UI.textInput) {
+    UI.textInput.addEventListener("input", () => {
+        // Desabilitar input de arquivo quando texto é digitado
+        UI.fileInput.disabled = UI.textInput.value.trim().length > 0;
+        if (UI.textInput.value.trim().length > 0) {
+            UI.fileInput.value = "";
+            UI.fileName.textContent = "Nenhum arquivo selecionado";
+        }
+    });
 }
