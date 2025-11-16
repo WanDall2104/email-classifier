@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <title>Classificador de Email</title>
+    <title>Classificador de E-mail</title>
     <link rel="stylesheet" href="css/styles.css">
     <link rel="icon" type="image/png" href="images/logo.png">
 </head>
@@ -15,12 +15,12 @@
 
     <!-- Card principal -->
     <div class="container">
-        <h1>Classificador de Email</h1>
+        <h1>Classificador de E-mail</h1>
 
         
         <div class="file-input-wrapper">
             <label for="fileInput" class="file-input-label">
-                Escolher arquivo
+                Escolher arquivo (txt, pdf)
             </label>
 
             <div class="file-input-name-box">
@@ -35,7 +35,10 @@
         <label>Ou cole o texto do email:</label>
         <textarea id="textInput" rows="6" placeholder="Cole aqui o conteúdo do email..."></textarea>
 
-        <button id="submitBtn">Processar Email</button>
+        <div class="actions">
+            <button id="submitBtn" class="btn btn-primary">Processar E-mail</button>
+            <button id="clearBtn" class="btn btn-secondary" type="button">Limpar Campos</button>
+        </div>
 
         <div class="result" id="resultDiv" style="display:none;">
             <h3>Resultado</h3>
@@ -46,7 +49,7 @@
             <p style="margin-top: 15px;"><strong>Resposta sugerida:</strong></p>
             <pre id="suggestedReply"></pre>
 
-            <button id="copyReplyBtn">Copiar Resposta</button>
+            <button id="copyReplyBtn" class="btn">Copiar Resposta</button>
         </div>
 
         <div class="error" id="errorDiv" style="display:none;">

@@ -6,6 +6,7 @@ const UI = {
     fileInput: document.getElementById("fileInput"),
     fileName: document.getElementById("fileName"),
     textInput: document.getElementById("textInput"),
+    clearBtn: document.getElementById("clearBtn"),
 
     result: document.getElementById("resultDiv"),
     error: document.getElementById("errorDiv"),
@@ -26,6 +27,31 @@ function clearUI() {
     UI.category.textContent = "";
     UI.confidence.textContent = "";
     UI.reply.textContent = "";
+}
+
+function clearForm() {
+    // limpa inputs e reativa os controles
+    if (UI.fileInput) {
+        UI.fileInput.value = "";
+        UI.fileInput.disabled = false;
+    }
+
+    if (UI.fileName) {
+        UI.fileName.textContent = "Nenhum arquivo selecionado";
+    }
+
+    if (UI.textInput) {
+        UI.textInput.value = "";
+        UI.textInput.disabled = false;
+    }
+
+    // Limpa resultados/erros visuais
+    clearUI();
+
+    // Resetar estado do botão de copiar
+    if (UI.copyReplyBtn) {
+        UI.copyReplyBtn.textContent = "Copiar Resposta";
+    }
 }
 
 function showError(message) {
@@ -108,6 +134,13 @@ UI.submitBtn.addEventListener("click", (e) => {
     e.preventDefault();
     sendForm();
 });
+
+if (UI.clearBtn) {
+    UI.clearBtn.addEventListener("click", (e) => {
+        e.preventDefault();
+        clearForm();
+    });
+}
 
 UI.copyReplyBtn.addEventListener("click", async () => {
     const text = UI.reply.textContent;
