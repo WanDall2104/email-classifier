@@ -3,7 +3,7 @@
 🔗 **Acesse o projeto online:**  
 https://email-classifier-3cwc.onrender.com
 
-Uma aplicação web que utiliza Inteligência Artificial para **classificar** e **responder automaticamente** e‑mails recebidos por uma empresa que lida com alto volume diário de mensagens.
+Uma aplicação web que utiliza Inteligência Artificial para **classificar** e **gerar respostas automáticas** para e‑mails recebidos por uma empresa que lida com alto volume diário de mensagens.
 
 ---
 
